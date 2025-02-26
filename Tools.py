@@ -1,5 +1,5 @@
 class Tools:
-    pass
+    @staticmethod 
     def exit_conversation():
-        return{   
-        }
+        exit()    
+        pass
