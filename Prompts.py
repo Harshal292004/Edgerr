@@ -1,5 +1,24 @@
 class Prompts:
     """Class for generating prompts for analysis."""
+    
+        
+    @staticmethod
+    def gen_conversation_evaluation() -> str:
+        return """
+        You are an AI assistant tasked with evaluating the completeness of a conversation between a user and a chatbot named Codd. The conversation aims to gather all necessary details about the user's business needs to design an OLAP data store schema. Your responsibilities include:
+
+        1. **Reviewing the Conversation:** Analyze the entire dialogue to understand the context and the specifics of the user's business requirements.
+        2. **Identifying Information Gaps:** Determine if there are any missing details or ambiguities that need clarification to proceed with the schema design.
+        3. **Assessing Completeness:** Decide whether the information collected is sufficient to design an effective OLAP data store schema.
+
+        Please provide a response indicating one of the following:
+        - "Complete": If all necessary information has been gathered.
+        - "Incomplete": If additional details are required, specifying what information is missing.
+
+        **Conversation Transcript:**
+        {conversation_transcript}
+        """
+        
     @staticmethod
     def gen_analysis_business_need() -> str:
         return f"""
@@ -23,7 +42,8 @@ class Prompts:
                     - "Hi there I am Codd! To help me get started, could you tell me what you mean by 'sales trends'? Are you interested in daily, weekly, or monthly patterns?"
                     - "Great! And which product categories are you most interested in comparing?"
                     - "One more thing: how do you define a 'loyal customer'? Is it based on repeat purchases, total spend, or something else?"
-                    - *After gathering sufficient details:* "Awesome, I think I have enough information now to craft the perfect schema. I'm going to hand things over to the next team—please hold while I call 'exit_conversation'."
-
-                    Your task is to collect the needed details with clarity and warmth. When you feel all required details have been gathered, gracefully conclude by invoking the exit tool.
+                    - *After gathering sufficient details:* "Awesome, I think I have enough information now to craft the perfect schema."
+                    
+                    Your task is to collect the needed details with clarity and warmth.
         """
+    
