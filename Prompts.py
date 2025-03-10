@@ -1,6 +1,14 @@
 class Prompts:
     """Class for generating prompts for analysis."""
     
+    @staticmethod 
+    def gen_technical_processing()->str:
+        return """
+        You are AI assistant specailized in construction of OLAP Data base shcema.
+        YOu are given a conversation between the user and a Data base specialist. There conversation includes the discussion about what are the data base requirements and on the basis of that use different tool calls to understand how to make the data base schema.
+        For Example:
+        """
+        
         
     @staticmethod
     def gen_conversation_evaluation() -> str:
