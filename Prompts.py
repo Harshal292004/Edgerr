@@ -1,6 +1,7 @@
 class Prompts:
     """Class for generating prompts for analysis."""
     
+    # CODD PROMPTS
     @staticmethod 
     def gen_technical_processing()->str:
         return """
@@ -55,3 +56,10 @@ class Prompts:
                     Your task is to collect the needed details with clarity and warmth.
         """
     
+    
+    # STONEBREAKER PROMPTS 
+    @staticmethod 
+    def get_analysis_method()->str:
+        return f"""
+        
+        """

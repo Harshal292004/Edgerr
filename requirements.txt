@@ -1,17 +1,12 @@
 # Core LangChain libraries
 langchain
+langchain-groq
 langchain-openai
 langchain-huggingface
 langchain-community
 langgraph
+faiss-cpu
 
 # Jupyter environment
 jupyter
 ipykernel
-
-# Flask and related web packages for Agentic AI
-Flask
-flask-cors
-flask-restful
-python-dotenv
-gunicorn

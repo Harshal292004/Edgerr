@@ -11,6 +11,9 @@ from langgraph.graph import  MessagesState
 from langchain_core.messages import HumanMessage,SystemMessage ,AnyMessage, AIMessage
 from pydantic import  BaseModel,Field
 from Prompts import  Prompts
+
+
+# CODD MODELS
 class Decision(BaseModel):
     state: Annotated[Literal["Complete", "Incomplete"], Field(description="Anlyse the conversation correctly")]
 
@@ -25,4 +28,6 @@ class BuisnessNeedPreProcessed(BaseModel):
     
 class CoddState(BaseModel):
     business_need: Optional[Annotated[BuisnessNeedPreProcessed, Field(description="Original raw business need text as provided by the client")]] = None
-    
+
+
+# STONEBREAKER MODELS
