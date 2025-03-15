@@ -10,7 +10,6 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import  MessagesState
 from langchain_core.messages import HumanMessage,SystemMessage ,AnyMessage, AIMessage
 from pydantic import  BaseModel,Field
-from Prompts import  Prompts
 
 
 # CODD MODELS
@@ -31,3 +30,18 @@ class CoddState(BaseModel):
 
 
 # STONEBREAKER MODELS
+class IsContextEnough(BaseModel):
+    isEnough: Annotated[bool, Field(description="Is the sql context enough")]
+
+
+class FixContext(BaseModel):
+    context:Annotated[str, Field(description="Fixed context")]
+class StoneBreakerState(BaseModel):
+    sql_context:Optional[Annotated[str,Field(description="")]]=None
+    sql_prompt:Optional[Annotated[str,Field(description="")]]=None
+    sql_context_from_vector_store:Optional[Annotated[str,Field(description="")]]=None
+    sql_refined_once:Optional[Annotated[str,Field(description="")]]=None
+    sql_refined_twice:Optional[Annotated[str,Field(description="")]]=None
+    sql_converted_to_trino:Optional[Annotated[str,Field(description="")]]=None
+    sql_converted_to_spark:Optional[Annotated[str,Field(description="")]]=None
+
