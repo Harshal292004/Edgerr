@@ -37,11 +37,15 @@ class IsContextEnough(BaseModel):
 class FixContext(BaseModel):
     context:Annotated[str, Field(description="Fixed context")]
 class StoneBreakerState(BaseModel):
+    data_base:Optional[Annotated[str,Field(description="")]]=None
     sql_context:Optional[Annotated[str,Field(description="")]]=None
     sql_prompt:Optional[Annotated[str,Field(description="")]]=None
     sql_context_from_vector_store:Optional[Annotated[str,Field(description="")]]=None
-    sql_refined_once:Optional[Annotated[str,Field(description="")]]=None
-    sql_refined_twice:Optional[Annotated[str,Field(description="")]]=None
-    sql_converted_to_trino:Optional[Annotated[str,Field(description="")]]=None
-    sql_converted_to_spark:Optional[Annotated[str,Field(description="")]]=None
-
+    sql_query_generated:Optional[Annotated[str,Field(description="")]]=None
+    sql_query_optimized:Optional[Annotated[str,Field(description="")]]=None
+    executed_success:Optional[Annotated[bool,Field(description="")]]=None
+    execution_results:Optional[Annotated[str,Field(description="")]]=None
+    trino_sql:Optional[Annotated[str,Field(description="")]]=None
+    spark_sql:Optional[Annotated[str,Field(description="")]]=None
+    error:Optional[Annotated[str,Field(description="")]]=None
+    

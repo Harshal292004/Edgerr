@@ -144,3 +144,52 @@ class Prompts:
                 """
             )
         ])
+    
+    @staticmethod
+    def gen_query()->ChatPromptTemplate:
+        return ChatPromptTemplate(
+            [
+                (
+                    "system",
+                    """
+                    You are an intelligent SQL assistant designed to generate refined sql queries.
+                    Given a SQL prompt, SQL context and an baseline example of what a good query looks like .
+                    Generate a sql query addressing the prompt and the context
+                    """
+                ),
+                (
+                    "human",
+                    """
+                    SQL_CONTEXT:{sql_context}
+                    SQL_PROMPT:{sql_prompt}
+                    SQL_BASE_LINE_EXAMPLE:{sql_context_from_vector_store}
+                    """
+                )
+            ]
+        )
+            
+    @staticmethod
+    def gen_optimized_query() -> ChatPromptTemplate:
+        return ChatPromptTemplate([
+            ("system", """
+    You are an intelligent SQL assistant specializing in query optimization. Your task is to analyze the provided SQL context and original SQL query, identify inefficiencies or missing elements, and generate an optimized version of the query that adheres to best practices.
+
+    Guidelines:
+    1. Review the SQL_CONTEXT to ensure all required tables and columns are available.
+    2. Analyze the ORIGINAL_SQL_QUERY for potential performance issues such as full table scans, inefficient JOINs, or unnecessary columns.
+    3. Apply best practices:
+    - Select only needed columns.
+    - Use appropriate JOINs (e.g., INNER JOIN instead of subqueries when possible).
+    - Leverage indexes by ensuring filtering and joining columns are indexed.
+    - Simplify nested subqueries or CTEs if possible.
+    4. Briefly explain your optimizations in comments within the SQL output.
+    """),
+            ("human", """
+    SQL_CONTEXT: {sql_context}
+    ORIGINAL_SQL_QUERY: {sql_query}
+    """)
+        ])
+    
+    @staticmethod
+    def gen_final_evaluation()->ChatPromptTemplate:
+        pass
