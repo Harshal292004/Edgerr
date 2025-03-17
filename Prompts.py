@@ -192,4 +192,22 @@ class Prompts:
     
     @staticmethod
     def gen_final_evaluation()->ChatPromptTemplate:
-        pass
+        return ChatPromptTemplate(
+            [
+                (
+                    "system",
+                    """
+                    You are an intelligent SQL assistant specialized in analyzing a generated query in context to sql prompt and sql context .
+                    You are tasked to analyze the query generated and determine whether it suffices the context and prompt.
+                    """
+                ),
+                (
+                    "human",
+                    """
+                    SQL_PROMPT: {sql_prompt}
+                    SQL_CONTEXT: {sql_context}
+                    SQL_QUERY: {sql_query}
+                    """
+                )
+            ]
+        )

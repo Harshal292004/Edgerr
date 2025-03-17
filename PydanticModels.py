@@ -36,6 +36,18 @@ class IsContextEnough(BaseModel):
 
 class FixContext(BaseModel):
     context:Annotated[str, Field(description="Fixed context")]
+    
+
+class Query(BaseModel):
+    query:Annotated[str,Field(description="")]
+    
+
+class OptimizedQuery(BaseModel):
+    query:Annotated[str,Field(description="")]
+    
+class FinalEvaluation(BaseModel):
+    evaluation:Annotated[bool,Field(description="")]    
+
 class StoneBreakerState(BaseModel):
     data_base:Optional[Annotated[str,Field(description="")]]=None
     sql_context:Optional[Annotated[str,Field(description="")]]=None
@@ -45,6 +57,7 @@ class StoneBreakerState(BaseModel):
     sql_query_optimized:Optional[Annotated[str,Field(description="")]]=None
     executed_success:Optional[Annotated[bool,Field(description="")]]=None
     execution_results:Optional[Annotated[str,Field(description="")]]=None
+    final_evaluation:Optional[Annotated[bool,Field(description="Is the query appropriate in regards to the sql prompt and context")]]=None
     trino_sql:Optional[Annotated[str,Field(description="")]]=None
     spark_sql:Optional[Annotated[str,Field(description="")]]=None
     error:Optional[Annotated[str,Field(description="")]]=None
