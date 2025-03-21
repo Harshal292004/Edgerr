@@ -24,41 +24,36 @@ class BuisnessNeedPreProcessed(BaseModel):
     messages:Optional[Annotated[List[AnyMessage], add_messages, Field(description="Conversations as stored")]]=None
     processed_technical_conversions:Optional[Annotated[TechincalPreProcessing,Field(description="")]] = None
     
-    
 class CoddState(BaseModel):
     business_need: Optional[Annotated[BuisnessNeedPreProcessed, Field(description="Original raw business need text as provided by the client")]] = None
 
 
 # STONEBREAKER MODELS
 class IsContextEnough(BaseModel):
-    isEnough: Annotated[bool, Field(description="Is the sql context enough")]
-
+    isEnough: Annotated[bool, Field(description="Is the SQL context enough")]
 
 class FixContext(BaseModel):
-    context:Annotated[str, Field(description="Fixed context")]
-    
+    context: Annotated[str, Field(description="Fixed context")]
 
 class Query(BaseModel):
-    query:Annotated[str,Field(description="")]
-    
+    query: Annotated[str, Field(description="Generated SQL query")]
 
 class OptimizedQuery(BaseModel):
-    query:Annotated[str,Field(description="")]
+    query: Annotated[str, Field(description="Optimized SQL query")]
     
 class FinalEvaluation(BaseModel):
-    evaluation:Annotated[bool,Field(description="")]    
+    evaluation: Annotated[bool, Field(description="Is the query appropriate for the SQL prompt and context")]
 
 class StoneBreakerState(BaseModel):
-    data_base:Optional[Annotated[str,Field(description="")]]=None
-    sql_context:Optional[Annotated[str,Field(description="")]]=None
-    sql_prompt:Optional[Annotated[str,Field(description="")]]=None
-    sql_context_from_vector_store:Optional[Annotated[str,Field(description="")]]=None
-    sql_query_generated:Optional[Annotated[str,Field(description="")]]=None
-    sql_query_optimized:Optional[Annotated[str,Field(description="")]]=None
-    executed_success:Optional[Annotated[bool,Field(description="")]]=None
-    execution_results:Optional[Annotated[str,Field(description="")]]=None
-    final_evaluation:Optional[Annotated[bool,Field(description="Is the query appropriate in regards to the sql prompt and context")]]=None
-    trino_sql:Optional[Annotated[str,Field(description="")]]=None
-    spark_sql:Optional[Annotated[str,Field(description="")]]=None
-    error:Optional[Annotated[str,Field(description="")]]=None
-    
+    data_base: Optional[Annotated[str, Field(description="Database connection path")]] = None
+    sql_context: Optional[Annotated[str, Field(description="SQL schema context")]] = None
+    sql_prompt: Optional[Annotated[str, Field(description="User SQL query prompt")]] = None
+    sql_context_from_vector_store: Optional[Annotated[str, Field(description="SQL context retrieved from vector store")]] = None
+    sql_query_generated: Optional[Annotated[str, Field(description="Generated SQL query")]] = None
+    sql_query_optimized: Optional[Annotated[str, Field(description="Optimized SQL query")]] = None
+    executed_success: Optional[Annotated[bool, Field(description="Query execution success status")]] = None
+    execution_results: Optional[Annotated[str, Field(description="Results from query execution")]] = None
+    final_evaluation: Optional[Annotated[bool, Field(description="Is the query appropriate for the SQL prompt and context")]] = None
+    trino_sql: Optional[Annotated[str, Field(description="SQL query converted to Trino dialect")]] = None
+    spark_sql: Optional[Annotated[str, Field(description="SQL query converted to Spark dialect")]] = None
+    error: Optional[Annotated[str, Field(description="Error message if execution failed")]] = None
