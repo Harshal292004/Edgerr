@@ -62,89 +62,32 @@ class Prompts:
     
     # STONEBREAKER PROMPTS 
     @staticmethod
-    def gen_is_context_enough()->ChatPromptTemplate:
+    def gen_is_prompt_related()->ChatPromptTemplate:
         return ChatPromptTemplate([
             ("system","""
-                You are an intelligent SQL evaluation system. Your task is to determine whether the given SQL context is sufficient to generate a correct SQL query based on a user-provided prompt.
-                A sufficient context is as follows:
+                You are an intelligent SQL evaluation system. Your task is to determine whether the given SQL prompt is related to schema provided to generate a correct SQL query.
+                A sufficient prompt is something which is related or possible to extract from the schema:
                 
                 Example 1:
-                
+                SQL_SCHEMA: CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT); INSERT INTO salesperson (salesperson_id, name, region) VALUES (1, 'John Doe', 'North'), (2, 'Jane Smith', 'South'); CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE); INSERT INTO timber_sales (sales_id, salesperson_id, volume, sale_date) VALUES (1, 1, 120, '2021-01-01'), (2, 1, 150, '2021-02-01'), (3, 2, 180, '2021-01-01');
                 SQL_PROMPT: What is the total volume of timber sold by each salesperson, sorted by salesperson?
-                SQL_CONTEXT: CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT); INSERT INTO salesperson (salesperson_id, name, region) VALUES (1, 'John Doe', 'North'), (2, 'Jane Smith', 'South'); CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE); INSERT INTO timber_sales (sales_id, salesperson_id, volume, sale_date) VALUES (1, 1, 120, '2021-01-01'), (2, 1, 150, '2021-02-01'), (3, 2, 180, '2021-01-01');
                 
                 Example 2:
-                SQL_PROMPT:List all the unique equipment types and their corresponding total maintenance frequency from the equipment_maintenance table.
-                SQL_CONTEXT:CREATE TABLE equipment_maintenance (equipment_type VARCHAR(255), maintenance_frequency INT);
+                SQL_SCHEMA: CREATE TABLE equipment_maintenance (equipment_type VARCHAR(255), maintenance_frequency INT);
+                SQL_PROMPT: List all the unique equipment types and their corresponding total maintenance frequency from the equipment_maintenance table.
                 
                 Example 3:
-                SQL_PROMPT:What is the total spending on humanitarian assistance by the European Union in the last 3 years?
-                SQL_CONTEXT:CREATE SCHEMA if not exists defense; CREATE TABLE if not exists eu_humanitarian_assistance (id INT PRIMARY KEY, year INT, spending INT); INSERT INTO defense.eu_humanitarian_assistance (id, year, spending) VALUES (1, 2019, 1500), (2, 2020, 1800), (3, 2021, 2100);
+                SQL_SCHEMA: CREATE SCHEMA if not exists defense; CREATE TABLE if not exists eu_humanitarian_assistance (id INT PRIMARY KEY, year INT, spending INT); INSERT INTO defense.eu_humanitarian_assistance (id, year, spending) VALUES (1, 2019, 1500), (2, 2020, 1800), (3, 2021, 2100);
+                SQL_PROMPT: What is the total spending on humanitarian assistance by the European Union in the last 3 years?
                 """
             ),
             (
                "human","""
-               SQL_CONTEXT:{sql_context}
                SQL_PROMPT: {sql_prompt}
+               SQL_SCHEMA:{sql_context}
                """ 
             )]
         )
-        
-    @staticmethod
-    def gen_fix_context() -> ChatPromptTemplate:
-        return ChatPromptTemplate([
-            ("system", """
-                You are an intelligent SQL assistant designed to refine and fix SQL context when it is insufficient for generating a correct SQL query.
-                
-                Given a SQL prompt and an incomplete SQL context, your task is to:
-                1. Identify missing tables, columns, or relationships required to execute the SQL prompt.
-                2. Suggest modifications or additional context needed to make the SQL context sufficient.
-                
-                Example 1:
-                
-                SQL_PROMPT: What is the total volume of timber sold by each salesperson, sorted by salesperson?
-                SQL_CONTEXT: CREATE TABLE salesperson (salesperson_id INT, name TEXT, region TEXT);
-                
-                Missing Elements:
-                - The `timber_sales` table, which contains volume data, is missing.
-                
-                Suggested Fix:
-                ```sql
-                CREATE TABLE timber_sales (sales_id INT, salesperson_id INT, volume REAL, sale_date DATE);
-                ```
-                
-                Example 2:
-                SQL_PROMPT: List all the unique equipment types and their corresponding total maintenance frequency from the equipment_maintenance table.
-                SQL_CONTEXT:
-                
-                Missing Elements:
-                - The `equipment_maintenance` table is missing.
-                
-                Suggested Fix:
-                ```sql
-                CREATE TABLE equipment_maintenance (equipment_type VARCHAR(255), maintenance_frequency INT);
-                ```
-                
-                Example 3:
-                SQL_PROMPT: What is the total spending on humanitarian assistance by the European Union in the last 3 years?
-                SQL_CONTEXT: CREATE TABLE eu_humanitarian_assistance (id INT PRIMARY KEY, year INT);
-                
-                Missing Elements:
-                - The `spending` column, which stores spending data, is missing.
-                
-                Suggested Fix:
-                ```sql
-                ALTER TABLE eu_humanitarian_assistance ADD COLUMN spending INT;
-                ```
-            """),
-            (
-                "human", """
-                SQL_PROMPT: {sql_prompt}
-                SQL_CONTEXT: {sql_context}
-                """
-            )
-        ])
-    
     @staticmethod
     def gen_query()->ChatPromptTemplate:
         return ChatPromptTemplate(

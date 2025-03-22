@@ -8,15 +8,11 @@ class DatabaseConnection:
     @staticmethod
     def build_connection_string(config:dict)->str:
         db_type=config.get("db_type").lower()
-        if db_type == "sqlite":
-            db_path=config.get("db_path")
-            return f"sqlite:///{db_path}"
-        
         username=config.get("username")
         password=config.get("password")
         host= config.get("host")
         port= config.get("port")
-        dbname= config.get("dbname")
+        dbname= config.get("db_name")
         
         if db_type=="postgress":
             return f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{dbname}"
@@ -40,3 +36,14 @@ class DatabaseConnection:
             print(f"Failed to connect: {e}")
             return None
         
+    @staticmethod 
+    def get_engine(conn_str):
+        try:
+            engine= create_engine(conn_str)
+            with engine.connect() as connection:
+                print("Connection Successfull")
+            return engine
+        except SQLAlchemyError as e:
+            print(f"Failed to connect: {e}")
+            return None
+            

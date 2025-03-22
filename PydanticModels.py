@@ -28,11 +28,8 @@ class CoddState(BaseModel):
 
 
 # STONEBREAKER MODELS
-class IsContextEnough(BaseModel):
-    isEnough: Annotated[bool, Field(description="Is the SQL context enough")]
-
-class FixContext(BaseModel):
-    context: Annotated[str, Field(description="Fixed context")]
+class IsPromptRelated(BaseModel):
+    isRelated: Annotated[bool, Field(description="Is the SQL prompt related")]
 
 class Query(BaseModel):
     query: Annotated[str, Field(description="Generated SQL query")]
@@ -49,6 +46,11 @@ class DB_TYPES(Enum):
     MARIADB:"mariadb"
 class DBConfigurations(BaseModel):
     db_type:Optional[Annotated[DB_TYPES, Field(description="Type fo the database")]] 
+    db_username:Optional[Annotated[str,Field(description="Username of the database")]]
+    db_password:Optional[Annotated[str,Field(description="Password of the database")]]
+    db_host:Optional[Annotated[str,Field(description="Host of the database")]]
+    db_port:Optional[Annotated[str,Field(description="Port of the database")]]
+    db_name:Optional[Annotated[str,Field(description="Name of the database")]]
     db_connection_str:Optional[Annotated[str,Field(description="Connection string for database")]]
     
 class StoneBreakerState(BaseModel):
